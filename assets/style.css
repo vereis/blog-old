@@ -6,6 +6,8 @@
   --text-color-lighter: #454545;
   --text-color-darker: #111111;
 
+  --text-select: rgba(0, 0, 0, 0.25);
+
   --link-color: #005bac;
   --link-color-visited: #003e75;
 }
@@ -34,6 +36,10 @@ body > * {
 
 body > img {
   width: 100%;
+}
+
+::selection {
+  background-color: var(--text-select);
 }
 
 a {
@@ -104,5 +110,12 @@ footer {
   header {
     padding-top: 1rem;
     padding-bottom: 1rem;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: var(--text-color-darker);
+    filter: invert(100%);
   }
 }

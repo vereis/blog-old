@@ -24,7 +24,7 @@ body {
   display: grid;
   grid-template-columns:
     [side-left] minmax(1.2rem, 1fr)
-    [content] minmax(auto, 75ch)
+    [content] minmax(auto, 80ch)
     [side-right] minmax(1.2rem, 1fr);
 }
 
@@ -92,4 +92,10 @@ footer {
   color: var(--text-color-lighter);
   user-select: none;
   font-size: 0.8rem;
+}
+
+@media (max-width: 600px) {
+  header {
+    padding-top: 2rem;
+  }
 }

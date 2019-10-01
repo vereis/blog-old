@@ -17,7 +17,10 @@ defmodule S do
   end
 
   def compile_page(source_file, output_directory, opts \\ []) do
-    with {:ok, html} <- File.read("#{@posts_dir}/#{source_file}") do
+    filepath = "#{@posts_dir}/#{source_file}"
+
+    with {:ok, html} <- File.read(filepath),
+         {:ok, date} <- get_commit_time(filepath) do
       basename = Path.basename(source_file) |> String.split(".") |> hd()
 
       title =
@@ -51,7 +54,7 @@ defmodule S do
 
       :ok = File.write(output_filename, file_contents)
 
-      {output_filename, title}
+      {output_filename, title, date}
     end
   end
 
@@ -60,13 +63,15 @@ defmodule S do
 
     contents =
       list_of_posts
-      |> Enum.map(fn {filename, title} ->
-        """
-        <article>
-          <a href="#{filename}">#{title}</a>
-          <time datetime="TBA">Date to be implemented</time>
-        </article>
-        """
+      |> Enum.sort(fn {_, _, date_1}, {_, _, date_2} -> date_1 > date_2 end)
+      |> Enum.map(fn
+        {filename, title, date} ->
+          """
+          <article>
+            <a href="#{filename}">#{title}</a>
+            <time datetime="#{date || "N/A"}">#{date || "N/A"}</time>
+          </article>
+          """
       end)
       |> Enum.join("\n")
 
@@ -95,7 +100,7 @@ defmodule S do
 
     :ok = File.write(output_filename, file_contents)
 
-    {output_filename, title}
+    {output_filename, title, nil}
   end
 
   defp footer() do
@@ -124,16 +129,48 @@ defmodule S do
 
     "#{0..(from_depth - path_depth) |> Enum.map(fn _ -> "." end) |> Enum.join()}/#{path}"
   end
+
+  defp get_commit_time(file) do
+    params = ["log", "--date=raw", "--diff-filter=A", "--format=%cd", "#{file}"]
+
+    datetime =
+      try do
+        with {res, 0} <- System.cmd("git", params) do
+          [unix_time, tz] =
+            res
+            |> String.split(~r/\s+/, trim: true)
+            |> Enum.map(&String.to_integer/1)
+
+          {:ok, time} = DateTime.from_unix(unix_time + tz * 36)
+          time
+        end
+      rescue
+        _ ->
+          IO.puts(
+            "Error -- could not get commit time for file: #{file}: defaulting to current time"
+          )
+
+          DateTime.utc_now()
+      end
+
+    formatted_date =
+      datetime
+      |> DateTime.to_iso8601()
+      |> String.split("T")
+      |> hd
+
+    {:ok, formatted_date}
+  end
 end
 
 # ==============================================#
 # Script                                        #
 # ==============================================#
 :ok = S.init()
-{_filename, _title} = S.compile_page("about_me.html", "./", force_filename: "index.html")
+{_filename, _title, _time} = S.compile_page("about_me.html", "./", force_filename: "index.html")
 
 articles =
   S.list_posts()
   |> Enum.map(&S.compile_page(&1, "./blog/"))
 
-{_filename, _title} = S.compile_list(articles, "./", force_filename: "blog.html")
+{_filename, _title, _time} = S.compile_list(articles, "./", force_filename: "blog.html")

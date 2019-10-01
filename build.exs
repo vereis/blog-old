@@ -34,7 +34,7 @@ defmodule S do
       <!DOCTYPE html>
       <html>
         <head>
-        <title>Chris Bailey -- #{title}</title>
+        <title>Chris Bailey &ndash; #{title}</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -79,7 +79,8 @@ defmodule S do
     <!DOCTYPE html>
     <html>
       <head>
-      <title>Chris Bailey -- #{title}</title>
+      <title>Chris Bailey &ndash; #{title}</title>
+
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1">
 

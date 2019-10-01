@@ -88,7 +88,19 @@ nav a:visited {
 }
 
 nav a:not(:last-child) {
-  margin-right: 2rem; 
+  margin-right: 2rem;
+}
+
+article {
+  padding-top: 0.66rem;
+  padding-bottom: 0.66rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+article > time {
+  color: var(--text-color-lighter);
 }
 
 footer {

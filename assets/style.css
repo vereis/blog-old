@@ -131,4 +131,8 @@ footer {
     background-color: var(--text-color-darker);
     filter: invert(100%);
   }
+
+  img {
+    filter: invert(100%);
+  }
 }

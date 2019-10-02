@@ -34,7 +34,7 @@ body > * {
   grid-column: content;
 }
 
-body > img {
+img {
   width: 100%;
 }
 
@@ -67,6 +67,7 @@ code {
 
 pre {
   padding: 1rem;
+  overflow-x: auto;
 }
 
 code {

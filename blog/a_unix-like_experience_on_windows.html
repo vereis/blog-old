@@ -169,9 +169,7 @@ be an issue for you, but if you're not using Windows 10, your best choice is Cyg
 <p>
 Otherwise, you can install WSL by enabling the feature via Powershell (make sure to run as admin):
 </p>
-<pre>
-Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Windows-Subsystem-Linux
-</pre>
+<script src="https://gist.github.com/Vereis/966d88ab3399afa390f5608d7b2d571b.js?file=enable-wsl.ps1"></script>
 <p>
 Restart your PC, then head on over to the Microsoft Store and install your distribution of choice.
 I personally go for Ubuntu, but you can choose from a handful easily. The community has also
@@ -228,21 +226,15 @@ To install WSL 2, you can simply follow these steps:
   </li>
   <li>
     You need Hyper-V enabled: <br/>
-    <code>
-      Enable-WindowsOptionalFeature -Online -FeatureName VirtualMachinePlatform
-    </code>
+    <script src="https://gist.github.com/Vereis/966d88ab3399afa390f5608d7b2d571b.js?file=enable-hyperv.ps1"></script>
   </li>
   <li>
     You need WSL enabled: <br/>
-    <code>
-      Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Windows-Subsystem-Linux
-    </code>
+    <script src="https://gist.github.com/Vereis/966d88ab3399afa390f5608d7b2d571b.js?file=enable-wsl.ps1"></script>
   </li>
   <li>
     Then, assuming you have Ubuntu installed already via the Microsoft store: <br/>
-    <code>
-      wsl --set-version ubuntu 2
-    </code>
+    <script src="https://gist.github.com/Vereis/966d88ab3399afa390f5608d7b2d571b.js?file=set-wsl-v2.ps1"></script>
   </li>
 </ol>
 <p>
@@ -427,12 +419,7 @@ If you're using WSL or WSL 2, and you don't want to launch the standard <code>ws
 to be able to launch your X applications, you can create <code>Visual Basic</code> scripts to
 do this for you, using the following snippet:
 </p>
-<pre>
-Set oShell = CreateObject ("Wscript.Shell") 
-Dim strArgs
-strArgs = "wsl bash -c 'DISPLAY=localhost:0 $APPLICATION_NAME'"
-oShell.Run strArgs, 0, false
-</pre>
+<script src="https://gist.github.com/Vereis/966d88ab3399afa390f5608d7b2d571b.js?file=x-application-launcher.vbs"></script>
 
 <h3>Windows Terminal (Beta)</h3>
 <p>
@@ -491,12 +478,7 @@ I use a tool called <a href="https://www.autohotkey.com/">AutoHotkey</a> to allo
 You essentially write a <code>.ahk</code> file with a simple (though archiac) DSL to hook keypresses
 and trigger events, such as launching Firefox with the following hotkey:
 </p>
-<pre>
-; Win+F -> Launch Firefox
-#f::
-  Run, firefox.exe
-  return
-</pre>
+<script src="https://gist.github.com/Vereis/966d88ab3399afa390f5608d7b2d571b.js?file=example-hotkey.ahk"></script>
 <p>
 Personally, I have a lot of AutoHotkey scripts running which let me move, hide, and resize windows, as
 well as some more complex functionality to moreso emulate a Linux Window Manager.

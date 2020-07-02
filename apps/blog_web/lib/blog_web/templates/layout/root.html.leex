@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Chris Bailey <%= page_title(@conn) %></title>
+    <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/app.css") %>"/>
+  </head>
+  <body>
+    <header>
+      <p> Chris Bailey </p>
+      <nav>
+        <a href="/posts">All Posts</a>
+        <a href="https://github.com/vereis/dotfiles">Dotfiles</a>
+        <a href="/assets/cv.pdf">CV</a>
+        <a href="/">Home</a>
+      </nav>
+    </header>
+    <%= @inner_content %>
+    <footer>
+      © Chris Bailey
+    </footer>
+    <script type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
+  </body>
+</html>

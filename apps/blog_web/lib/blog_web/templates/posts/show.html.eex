@@ -1,0 +1,14 @@
+<%= if @show_list_button do %>
+<label class="subheading">
+  <em>Approx. <%= @post.reading_time_minutes %> minute reading time</em>
+</label>
+<% end %>
+
+<%= raw @post.content %>
+
+<%= if @show_list_button do %>
+<p>
+  <br>
+  <a href="/posts">Return to Posts →</a>
+</p>
+<% end %>

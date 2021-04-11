@@ -20,5 +20,7 @@ defmodule BlogWeb.Router do
 
     get "/posts", PostsController, :index
     get "/posts/:title", PostsController, :show
+
+    get "/rss", RssController, :index
   end
 end

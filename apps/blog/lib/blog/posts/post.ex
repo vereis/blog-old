@@ -7,6 +7,8 @@ defmodule Blog.Posts.Post do
   import Ecto.Changeset
   import Ecto.Query
 
+  require Logger
+
   alias __MODULE__
 
   @draft_prefixes ["Draft", "WIP"]
@@ -17,6 +19,7 @@ defmodule Blog.Posts.Post do
     field :title, :string
     field :content, :string
     field :raw_content, :string
+    field :description, :string
     field :reading_time_minutes, :integer
 
     field :created_at, :utc_datetime_usec
@@ -36,6 +39,7 @@ defmodule Blog.Posts.Post do
     |> put_is_draft()
     |> put_normalized_title()
     |> put_estimated_reading_time()
+    |> put_description()
     |> unique_constraint(:id)
     |> unique_constraint(:normalized_title)
   end
@@ -95,6 +99,31 @@ defmodule Blog.Posts.Post do
   end
 
   defp put_estimated_reading_time(%Ecto.Changeset{} = changeset) do
+    changeset
+  end
+
+  defp put_description(%Ecto.Changeset{changes: %{content: content}} = changeset) do
+    description =
+      ~r/<p>.*?<h2>/s
+      |> Regex.run(content)
+      |> case do
+        [first_match | _] ->
+          String.trim_trailing(first_match, "\n<h2>")
+
+        _ ->
+          Logger.warn(
+            "Could not generate a description for post #{
+              changeset.changes.id || changeset.data.id
+            }"
+          )
+
+          content
+      end
+
+    put_change(changeset, :description, description)
+  end
+
+  defp put_description(%Ecto.Changeset{} = changeset) do
     changeset
   end
 

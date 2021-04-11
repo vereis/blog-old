@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Chris Bailey <%= page_title(@conn) %></title>
     <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/app.css") %>"/>
+    <link rel="alternate" type="application/rss+xml" title="Chris Bailey's blog" href="<%= Routes.rss_path(@conn, :index) %>" />
   </head>
   <body>
     <header>
@@ -15,10 +16,9 @@
         </svg>
       </a>
       <nav>
-        <a href="/">Home</a>
-        <a href="/posts">Posts</a>
-        <a href="https://github.com/vereis/dotfiles">Dotfiles</a>
-        <a href="/assets/cv.pdf">CV</a>
+        <a href="/posts">All Posts</a>
+        <a href="/assets/cv.pdf">Résumé</a>
+        <a href="<%= Routes.rss_path(@conn, :index) %>">RSS Feed</a>
       </nav>
     </header>
     <%= @inner_content %>

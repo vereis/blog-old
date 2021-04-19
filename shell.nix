@@ -3,7 +3,7 @@
 pkgs.mkShell {
   buildInputs = [
     pkgs.elixir_1_11
-    pkgs.nodejs-10_x
+    pkgs.nodejs-15_x
     pkgs.inotify-tools
   ];
 }

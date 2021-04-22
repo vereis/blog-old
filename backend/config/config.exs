@@ -17,6 +17,16 @@ config :blog_web, BlogWeb.Endpoint,
   pubsub_server: Blog.PubSub,
   live_view: [signing_salt: "yKjH5K6a"]
 
+# Configure API app
+config :blog_api,
+  ecto_repos: [Blog.Repo],
+  generators: [context_app: :blog]
+
+config :blog_api, BlogApi.Endpoint,
+  url: [host: "localhost"],
+  secret_key_base: "CBstNw5JifWeRKBvZeH8zHXEhRaMY9BRwnuDWL7aMWAe3wcoHmqD3Y/ZNNJYp75w",
+  render_errors: [view: BlogApi.ErrorView, accepts: ~w(html json), layout: false]
+
 # Configures Elixir's Logger
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",

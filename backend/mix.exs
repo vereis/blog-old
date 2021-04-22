@@ -11,7 +11,7 @@ defmodule Blog.Umbrella.MixProject do
       releases: [
         main: [
           include_executables_for: [:unix],
-          applications: [blog: :permanent, blog_web: :permanent]
+          applications: [blog: :permanent, blog_web: :permanent, blog_api: :permanent]
         ]
       ]
     ]

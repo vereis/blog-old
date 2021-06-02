@@ -40,8 +40,8 @@ defmodule Blog.Posts.Post do
     |> put_normalized_title()
     |> put_estimated_reading_time()
     |> put_description()
-    |> unique_constraint(:id)
-    |> unique_constraint(:normalized_title)
+    |> unique_constraint(:id, name: :posts_pkey)
+    |> unique_constraint(:normalized_title, name: :posts_normalized_title_index)
   end
 
   defp put_normalized_title(%Ecto.Changeset{changes: %{title: title}} = changeset) do
@@ -111,12 +111,7 @@ defmodule Blog.Posts.Post do
           String.trim_trailing(first_match, "\n<h2>")
 
         _ ->
-          Logger.warn(
-            "Could not generate a description for post #{
-              changeset.changes.id || changeset.data.id
-            }"
-          )
-
+          Logger.warn("Could not generate a description for post")
           content
       end
 

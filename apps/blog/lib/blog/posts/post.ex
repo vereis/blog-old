@@ -145,12 +145,8 @@ defmodule Blog.Posts.Post do
       where: fragment("lower(?) ", ^tag) in fragment("lower(?::text)::text[]", post.tags)
   end
 
-  def where_is_draft(query) do
-    from [post: post] in query, where: post.is_draft == true
-  end
-
-  def where_not_is_draft(query) do
-    from [post: post] in query, where: post.is_draft == false
+  def where_is_draft(query, value \\ true) do
+    from [post: post] in query, where: post.is_draft == ^value
   end
 
   def order_by_created_at(query) do

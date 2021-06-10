@@ -38,7 +38,7 @@ defmodule Blog.Posts do
   def list_posts do
     posts =
       Post.base_query()
-      |> Post.where_not_is_draft()
+      |> Post.where_is_draft(false)
       |> Post.order_by_created_at()
       |> Repo.all()
 
@@ -50,7 +50,7 @@ defmodule Blog.Posts do
     posts =
       Post.base_query()
       |> Post.where_has_tag(tag)
-      |> Post.where_not_is_draft()
+      |> Post.where_is_draft(false)
       |> Post.order_by_created_at()
       |> Repo.all()
 

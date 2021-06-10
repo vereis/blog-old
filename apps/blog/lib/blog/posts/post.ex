@@ -36,12 +36,12 @@ defmodule Blog.Posts.Post do
     post
     |> cast(attrs, [:id, :title, :content, :created_at, :updated_at, :tags, :raw_content])
     |> validate_required([:id, :title, :content, :created_at, :updated_at, :tags, :raw_content])
+    |> unique_constraint(:id, name: :posts_pkey)
+    |> unique_constraint(:normalized_title, name: :posts_normalized_title_index)
     |> put_is_draft()
     |> put_normalized_title()
     |> put_estimated_reading_time()
     |> put_description()
-    |> unique_constraint(:id, name: :posts_pkey)
-    |> unique_constraint(:normalized_title, name: :posts_normalized_title_index)
   end
 
   defp put_normalized_title(%Ecto.Changeset{changes: %{title: title}} = changeset) do
@@ -124,23 +124,36 @@ defmodule Blog.Posts.Post do
 
   # Query functions ===========
 
+  def base_query do
+    from p in Post, as: :post
+  end
+
   def where_id(query, id) do
-    from p in query, where: p.id == ^id
+    from [post: post] in query, where: post.id == ^id
   end
 
   def where_id_in(query, ids) do
-    from p in query, where: p.id in ^ids
+    from [post: post] in query, where: post.id in ^ids
   end
 
   def where_normalized_title(query, normalized_title) do
-    from p in query, where: p.normalized_title == ^normalized_title
+    from [post: post] in query, where: post.normalized_title == ^normalized_title
+  end
+
+  def where_has_tag(query, tag) do
+    from [post: post] in query,
+      where: fragment("lower(?) ", ^tag) in fragment("lower(?::text)::text[]", post.tags)
   end
 
   def where_is_draft(query) do
-    from p in query, where: p.is_draft == true
+    from [post: post] in query, where: post.is_draft == true
   end
 
   def where_not_is_draft(query) do
-    from p in query, where: p.is_draft == false
+    from [post: post] in query, where: post.is_draft == false
+  end
+
+  def order_by_created_at(query) do
+    from [post: post] in query, order_by: [desc: post.created_at]
   end
 end

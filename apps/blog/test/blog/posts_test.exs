@@ -23,9 +23,13 @@ defmodule Blog.PostsTest do
       end
     end
 
-    test "returns changeset error when trying to insert post twice" do
-      assert {:ok, %Post{}} = Posts.create_post(@required_attrs)
-      assert {:error, %Ecto.Changeset{valid?: false}} = Posts.create_post(@required_attrs)
+    test "behaves idempotently when trying to create post twice" do
+      assert {:ok, %Post{id: 42}} = Posts.create_post(@required_attrs)
+      assert {:ok, %Post{id: 42}} = Posts.create_post(@required_attrs)
+
+      # Also updates any fields that differ
+      assert {:ok, %Post{id: 42, title: "something else"}} =
+               Posts.create_post(%{@required_attrs | title: "something else"})
     end
 
     test "given invalid attrs, returns changeset error" do
@@ -118,8 +122,7 @@ defmodule Blog.PostsTest do
           @required_attrs
           | id: 5,
             tags: ["1"],
-            title: "Draft: test",
-            title: Ecto.UUID.generate()
+            title: "Draft: test"
         })
 
       {:ok, post_1: post_1, post_2: post_2, post_3: post_3, post_4: post_4, post_5: post_5}
@@ -130,18 +133,20 @@ defmodule Blog.PostsTest do
       assert {:ok, posts_tagged_1} = Posts.list_posts_with_tag("1")
       assert {:ok, posts_tagged_2} = Posts.list_posts_with_tag("2")
 
-      assert length(posts_tagged_1) == 3
+      assert length(posts_tagged_1) == 2
       assert state.post_2 in posts_tagged_1
       assert state.post_4 in posts_tagged_1
-      assert state.post_5 in posts_tagged_1
 
       assert length(posts_tagged_2) == 2
       assert state.post_3 in posts_tagged_2
       assert state.post_4 in posts_tagged_2
 
+      # Since post 1 isn't tagged at all, it's not in either list
       refute state.post_1 in posts_tagged_1
       refute state.post_1 in posts_tagged_2
 
+      # Since post 5 is a draft, despite being tagged 1, it isn't returned in either list
+      refute state.post_5 in posts_tagged_1
       refute state.post_5 in posts_tagged_2
     end
   end

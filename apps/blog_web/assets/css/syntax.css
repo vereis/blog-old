@@ -1,26 +1,3 @@
-div.highlight {
-  border: 1px solid var(--text-color-lighter);
-  border-radius: 4px;
-  padding: 0;
-  margin: 1rem 0;
-  position: relative;
-}
-
-div.highlight::before {
-  position: absolute;
-  display: block;
-  padding: 0.5rem 1rem;
-  font-size: 0.8rem;
-  color: var(--background-color);
-  border: 1px solid var(--background-color);
-  background-color: var(--text-color-darker);
-  border-radius: 4px;
-  right: 1rem;
-  top: 1rem;
-  opacity: 1;
-  transition: opacity 0.25s ease-in-out;
-}
-
 .pl-c,
 .pl-c span {
   color:#75715e !important;
@@ -405,10 +382,4 @@ div.highlight::before {
 .pl-token:hover {
   background:#a6e22e !important;
   color:#272822 !important;
-}
-
-@media (prefers-color-scheme: dark) {
-  pre {
-    filter: invert(100%);
-  }
 }

@@ -21,7 +21,7 @@ defmodule BlogWeb.PostsView do
 
     case known_labels[label] do
       nil -> "Oops! There isn't anything here."
-      label -> "All #{label} Posts"
+      label -> "All Posts tagged `#{label}`"
     end
   end
 end

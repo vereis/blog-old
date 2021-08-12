@@ -1,3 +1,135 @@
-@import "./reset.css";
-@import "./theme.css";
-@import "./syntax.css";
+/* @import "./reset.css";   */
+/* @import "./theme.scss";   */
+/* @import "./syntax.css";   */
+
+@import url('https://rsms.me/inter/inter.css');
+@import url('https://rsms.me/inter/inter.css');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  #prose {
+    @apply text-base;
+    @apply text-gray-800;
+
+    @apply leading-relaxed;
+    @apply md:leading-loose;
+
+    > h1:first-child {
+      @apply hidden;
+    }
+
+    * + * {
+      @apply mt-6;
+    }
+
+    * + h1:not(:first-child),
+    * + h2,
+    * + h3 {
+      @apply mt-12;
+      @apply -mb-1;
+    }
+
+    h1 {
+      @apply text-2xl;
+      @apply font-bold;
+    }
+
+    h2 {
+      @apply text-xl;
+      @apply font-bold;
+    }
+
+    h3 {
+      @apply text-lg;
+      @apply font-bold;
+    }
+
+    /* Highlight the fact that we don't want to use such deeply nested headers */
+    h4, h5, h6 {
+      @apply bg-red-100;
+
+      @apply ring-red-400;
+      @apply ring-2;
+    }
+
+    pre {
+      @apply p-4;
+
+      @apply font-mono;
+      @apply font-light;
+
+      @apply text-sm;
+
+      @apply rounded-sm;
+
+      @apply text-gray-100;
+
+      @apply max-w-full;
+      @apply overflow-auto;
+
+      line-height: 1.3;
+      background-color: #0C0C0C;
+
+      @import "./syntax.css";
+    }
+
+    code {
+      @apply font-mono;
+      @apply font-semibold;
+    }
+
+    blockquote {
+      @apply p-5;
+      @apply border-l-8;
+
+      @apply border-pink-200;
+      @apply text-gray-600;
+
+      @apply text-sm;
+      @apply italic;
+      @apply leading-loose;
+
+      strong,
+      del,
+      code {
+        @apply not-italic;
+      }
+    }
+
+    ul {
+      @apply list-outside;
+      @apply list-disc;
+
+      @apply ml-5;
+    }
+
+    ol {
+      @apply list-outside;
+      @apply list-decimal;
+
+      @apply ml-5;
+    }
+
+    del {
+      @apply text-pink-400;
+    }
+
+    a {
+      @apply font-semibold;
+      @apply underline;
+    }
+
+    a:hover {
+      @apply text-pink-400;
+    }
+
+    a[target="_blank"][href*="user-images"] {
+      @apply block;
+      @apply rounded-sm;
+      @apply overflow-hidden;
+    }
+  }
+}

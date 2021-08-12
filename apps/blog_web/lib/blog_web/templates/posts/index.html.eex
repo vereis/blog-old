@@ -1,27 +1,82 @@
-<h1><%= list_view_title(@tag, @posts) %></h1>
-<%= if @posts == [] do %>
-  <p>
-  Unfortunately, there are no posts to display matching the requested criterion.
-  </p>
-  <p>
-    <a href="/posts">Show all posts instead? →</a>
-  </p>
-<% else %>
-  <ul class="post-list">
-    <%= for post <- @posts do %>
-      <li>
-        <a href="/posts/<%= post.normalized_title %>">
-          <%= post.title %>
-        </a>
-        <time><%= Timex.format!(post.created_at, "%h %d, %Y", :strftime) %></time>
-        <div class="labels">
+<div class="mx-auto max-w-prose lg:max-w-5xl lg:flex lg:justify-center lg:px-8">
+
+  <!-- Post -->
+  <main class="max-w-prose flex-grow">
+
+    <!-- Header -->
+    <header class="my-6 lg:mb-12">
+      <h2 class="text-2xl font-bold text-gray-800"><%= list_view_title(@tag, @posts) %></h1>
+    </header>
+
+    <%= if @posts == [] do %>
+      <!-- Empty state -->
+      <p>
+        There isn't anything to show here.
+      </p>
+      <a class="block mt-12 text-sm text-gray-400 hover:underline hover:text-pink-400" href="/posts">Back to Blog Index →</a>
+    <% else %>
+      <!-- Article list -->
+      <%= for post <- @posts do %>
+        <article class="mb-6 lg:mb-12">
+          <!-- Article title link -->
+          <a class="block text-md font-semibold text-gray-800 mb-2 hover:text-pink-400 hover:underline" href="/posts/<%= post.normalized_title %>"><%= post.title %></a>
+
+          <!-- Reading time / published at -->
+          <div class="text-xs text-gray-400 flex justify-between mb-2">
+            <span class="flex space-between items-center mr-4">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M9 4.804A7.968 7.968 0 005.5 4c-1.255 0-2.443.29-3.5.804v10A7.969 7.969 0 015.5 14c1.669 0 3.218.51 4.5 1.385A7.962 7.962 0 0114.5 14c1.255 0 2.443.29 3.5.804v-10A7.968 7.968 0 0014.5 4c-1.255 0-2.443.29-3.5.804V12a1 1 0 11-2 0V4.804z" />
+              </svg>
+              <%= Timex.format!(post.created_at, "%h %d, %Y", :strftime) %>
+            </span>
+            <span class="flex space-between items-center flex-grow">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd" />
+              </svg>
+              <span>
+                <%= post.reading_time_minutes %> min. read
+              </span>
+            </span>
+          </div>
+
+          <!-- Article categories -->
           <%= for tag <- post.tags do %>
-            <a class="post-label" href="/posts?tag=<%= String.downcase(tag) %>">
-              <%= String.downcase(tag) %>
-            </a>
+            <%= if String.downcase(tag) == @tag do %>
+              <a class="inline-flex items-center lowercase text-xs text-gray-400 px-2 py-1 mr-1 mb-1 bg-gray-100 rounded-sm hover:text-pink-400 hover:bg-pink-50" href="/posts">
+                <%= tag %>
+              </a>
+            <% else %>
+              <a class="inline-block lowercase text-xs text-gray-400 px-2 py-1 mr-1 mb-1 bg-gray-50 rounded-sm hover:text-pink-400 hover:bg-pink-50" href="/posts?tag=<%= String.downcase(tag) %>">
+                <%= tag %>
+              </a>
+            <% end %>
           <% end %>
-        </div>
-      </li>
+        </article>
+      <% end %>
     <% end %>
-  </ul>
-<% end %>
+  </main>
+
+  <!-- Subheadings -->
+  <aside class="my-6 pl-14 relative hidden lg:block max-w-xs">
+    <div class="rounded sticky top-8">
+      <h2 class="text-sm font-bold text-gray-800 mb-8">All Categories</h2>
+
+      <%= for tag <- @tags do %>
+        <%= if String.downcase(tag) == @tag do %>
+          <a class="inline-flex items-center lowercase text-xs text-gray-400 px-2 py-1 mr-1 mb-1 bg-gray-100 rounded-sm hover:text-pink-400 hover:bg-pink-50" href="/posts">
+            <%= tag %>
+          </a>
+        <% else %>
+          <a class="inline-block lowercase text-xs text-gray-400 px-2 py-1 mr-1 mb-1 bg-gray-50 rounded-sm hover:text-pink-400 hover:bg-pink-50" href="/posts?tag=<%= String.downcase(tag) %>">
+            <%= tag %>
+          </a>
+        <% end %>
+      <% end %>
+
+      <%= if @tag do %>
+        <a class="block mt-8 text-xs text-gray-400 hover:underline hover:text-pink-400" href="/posts">Back to Blog Index →</a>
+      <% end %>
+    </div>
+  </aside>
+
+</div>

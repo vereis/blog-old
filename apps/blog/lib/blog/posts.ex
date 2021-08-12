@@ -83,6 +83,18 @@ defmodule Blog.Posts do
     {:ok, posts}
   end
 
+  @spec list_tags() :: {:ok, [String.t()]}
+  def list_tags() do
+    {:ok, posts} = list_posts()
+
+    all_tags =
+      posts
+      |> Enum.flat_map(& &1.tags)
+      |> Enum.uniq()
+
+    {:ok, all_tags}
+  end
+
   @spec process_internal_links(%Post{}) :: {:ok, %Post{}}
   def process_internal_links(%Post{} = post) do
     with {:ok, internal_links} <- InternalLinks.get_internal_links(post),

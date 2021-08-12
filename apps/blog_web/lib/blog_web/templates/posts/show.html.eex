@@ -1,14 +1,70 @@
-<%= if @show_list_button do %>
-<label class="subheading">
-  <em>Approx. <%= @post.reading_time_minutes %> minute reading time</em>
-</label>
-<% end %>
+<article class="mx-auto max-w-prose lg:max-w-5xl lg:flex lg:justify-center lg:px-8">
 
-<%= raw @post.content %>
+  <!-- Post -->
+  <main class="max-w-prose flex-grow">
 
-<%= if @show_list_button do %>
-<p>
-  <br>
-  <a href="/posts">Return to Posts →</a>
-</p>
-<% end %>
+    <!-- Header -->
+    <header class="my-6">
+      <h2 id="heading_0" class="text-2xl font-bold text-gray-800 mb-2"><%= @post.title %></h1>
+
+      <!-- Reading time / published at -->
+      <%= if @show_list_button do %>
+        <div class="text-xs text-gray-400 flex justify-between mb-2">
+          <span class="flex space-between items-center mr-4">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
+              <path d="M9 4.804A7.968 7.968 0 005.5 4c-1.255 0-2.443.29-3.5.804v10A7.969 7.969 0 015.5 14c1.669 0 3.218.51 4.5 1.385A7.962 7.962 0 0114.5 14c1.255 0 2.443.29 3.5.804v-10A7.968 7.968 0 0014.5 4c-1.255 0-2.443.29-3.5.804V12a1 1 0 11-2 0V4.804z" />
+            </svg>
+            <%= Timex.format!(@post.created_at, "%h %d, %Y", :strftime) %>
+          </span>
+          <span class="flex space-between items-center flex-grow">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd" />
+            </svg>
+            <span>
+              <%= @post.reading_time_minutes %> min. read
+            </span>
+          </span>
+        </div>
+      <% end %>
+    </header>
+
+    <!-- Post Content -->
+    <div id="prose">
+      <%= raw @post.content %>
+    </div>
+
+    <%= if @show_list_button do %>
+      <a class="block mt-12 text-sm text-gray-400 hover:underline hover:text-pink-400" href="/posts">Back to Blog Index →</a>
+    <% end %>
+  </main>
+
+  <%= if @show_list_button do %>
+
+    <!-- Subheadings -->
+    <aside class="my-6 ml-14 relative hidden lg:block">
+      <div class="rounded sticky top-8">
+        <h2 class="text-sm font-bold text-gray-800 mb-8">Table of Contents</h2>
+
+        <% find_headings = ~r/<h[1-6]>((?!<\h[1-6]>).+)<\/h[1-6]>/ %>
+        <%= for {[markdown, heading], i} <- Enum.with_index(Regex.scan(find_headings, @post.content)) do %>
+          <a class="underline text-gray-500 my-4 block text-sm hover:text-pink-400" href="#heading_<%= i %>"><%= raw heading %></a>
+        <% end %>
+
+        <a class="block mt-8 text-xs text-gray-400 hover:underline hover:text-pink-400" href="/posts">Back to Blog Index →</a>
+      </div>
+    </aside>
+
+  <% end %>
+
+</article>
+
+<script>
+// TODO: do this as part of importing posts on the BE side of things
+const prose = document.getElementById("prose");
+const headings = prose.querySelectorAll("h1, h2, h3, h4, h5");
+
+for (const index in headings) {
+  const heading = headings[index];
+  heading.id = `heading_${index}`;
+}
+</script>

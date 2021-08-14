@@ -4,7 +4,7 @@
   <main class="max-w-prose flex-grow">
 
     <!-- Header -->
-    <header class="my-6">
+    <header class="mb-6 md:mt-6">
       <h2 id="heading_0" class="text-2xl font-bold text-gray-800 mb-2"><%= @post.title %></h1>
 
       <!-- Reading time / published at -->

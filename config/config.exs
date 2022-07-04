@@ -18,8 +18,11 @@ config :blog,
 
 config :blog, Oban,
   repo: Blog.Repo,
-  plugins: [Oban.Plugins.Pruner],
-  queues: [default: 10]
+  queues: [default: 10],
+  plugins: [
+    Oban.Plugins.Pruner,
+    {Oban.Plugins.Cron, crontab: [{"@reboot", Blog.Poller.Worker}]}
+  ]
 
 config :tesla, :adapter, {Tesla.Adapter.Finch, name: Blog.Finch}
 

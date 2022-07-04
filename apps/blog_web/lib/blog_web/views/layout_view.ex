@@ -1,15 +1,7 @@
 defmodule BlogWeb.LayoutView do
   use BlogWeb, :view
 
-  def page_title(%Plug.Conn{assigns: %{posts: _posts}}) do
-    " · All Posts"
-  end
-
-  def page_title(%Plug.Conn{assigns: %{post: %{title: title}}}) do
-    " · #{title}"
-  end
-
-  def page_title(_conn) do
-    ""
-  end
+  # Phoenix LiveDashboard is available only in development by default,
+  # so we instruct Elixir to not warn if the dashboard route is missing.
+  @compile {:no_warn_undefined, {Routes, :live_dashboard_path, 2}}
 end

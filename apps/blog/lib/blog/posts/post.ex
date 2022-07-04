@@ -6,11 +6,10 @@ defmodule Blog.Posts.Post do
   use Ecto.Schema
 
   import Ecto.Changeset
-  import Ecto.Query
 
   alias __MODULE__
 
-  @type t :: %__MODULE__{}
+  @type t :: %Post{}
 
   @draft_prefixes ["Draft", "WIP"]
   @average_words_read_per_minute 238

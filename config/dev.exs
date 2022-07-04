@@ -1,24 +1,32 @@
-use Mix.Config
+import Config
+
+# Configure your database
+config :blog, Blog.Repo,
+  database: System.fetch_env!("POSTGRES_DB"),
+  username: System.fetch_env!("POSTGRES_USER"),
+  password: System.fetch_env!("POSTGRES_PASSWORD"),
+  port: System.fetch_env!("POSTGRES_PORT"),
+  stacktrace: true,
+  show_sensitive_data_on_connection_error: true,
+  pool_size: 10
 
 # For development, we disable any cache and enable
 # debugging and code reloading.
 #
 # The watchers configuration can be used to run external
 # watchers to your application. For example, we use it
-# with webpack to recompile .js and .css sources.
+# with esbuild to bundle .js and .css sources.
 config :blog_web, BlogWeb.Endpoint,
-  http: [port: 3108],
-  debug_errors: true,
-  code_reloader: true,
+  # Binding to loopback ipv4 address prevents access from other machines.
+  # Change to `ip: {0, 0, 0, 0}` to allow access from other machines.
+  http: [ip: {127, 0, 0, 1}, port: 4000],
   check_origin: false,
+  code_reloader: true,
+  debug_errors: true,
+  secret_key_base: "BWwgw3lESOHPUNF3l/8KfffHRFvFpbipUoS6HoZMQh75vC3YXuX9JRjdpwxldIhX",
   watchers: [
-    node: [
-      "node_modules/webpack/bin/webpack.js",
-      "--mode",
-      "development",
-      "--watch-stdin",
-      cd: Path.expand("../apps/blog_web/assets", __DIR__)
-    ]
+    # Start the esbuild watcher by calling Esbuild.install_and_run(:default, args)
+    esbuild: {Esbuild, :install_and_run, [:default, ~w(--sourcemap=inline --watch)]}
   ]
 
 # ## SSL Support

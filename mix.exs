@@ -7,13 +7,7 @@ defmodule Blog.Umbrella.MixProject do
       version: "0.1.0",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
-      aliases: aliases(),
-      releases: [
-        main: [
-          include_executables_for: [:unix],
-          applications: [blog: :permanent, blog_web: :permanent]
-        ]
-      ]
+      aliases: aliases()
     ]
   end
 
@@ -30,10 +24,7 @@ defmodule Blog.Umbrella.MixProject do
   # Dependencies listed here are available only for this project
   # and cannot be accessed from applications inside the apps/ folder.
   defp deps do
-    [
-      {:credo, "~> 1.5", only: [:dev, :test], runtime: false},
-      {:dialyxir, "~> 1.0", only: [:dev], runtime: false}
-    ]
+    []
   end
 
   # Aliases are shortcuts or tasks specific to the current project.
@@ -47,7 +38,8 @@ defmodule Blog.Umbrella.MixProject do
   # and cannot be accessed from applications inside the apps/ folder.
   defp aliases do
     [
-      lint: ["format --check-formatted --dry-run", "credo --strict", "dialyzer"]
+      # run `mix setup` in all child apps
+      setup: ["cmd mix setup"]
     ]
   end
 end

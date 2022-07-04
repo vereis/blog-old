@@ -60,7 +60,7 @@ defmodule Blog.Umbrella.MixProject do
   # and cannot be accessed from applications inside the apps/ folder.
   defp aliases do
     [
-      test: ["coveralls --umbrella --trace --slowest 10"],
+      test: ["coveralls.html --umbrella --trace --slowest 10"],
       lint: [
         "format --check-formatted --dry-run",
         "credo --strict",

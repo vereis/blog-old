@@ -129,7 +129,7 @@ end
           {Check.Readability.SinglePipe, []},
           {Check.Readability.StrictModuleLayout, []},
           {Check.Readability.WithCustomTaggedTuple, []},
-          {Check.Refactor.ABCSize, []},
+          {Check.Refactor.ABCSize, [max_size: 50]},
           {Check.Refactor.AppendSingleItem, []},
           {Check.Refactor.DoubleBooleanNegation, []},
           {Check.Refactor.FilterReject, []},

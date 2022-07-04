@@ -13,6 +13,11 @@ import Config
 config :blog,
   ecto_repos: [Blog.Repo]
 
+config :blog, Oban,
+  repo: Blog.Repo,
+  plugins: [Oban.Plugins.Pruner],
+  queues: [default: 10]
+
 # Configures the mailer
 #
 # By default it uses the "Local" adapter which stores the emails

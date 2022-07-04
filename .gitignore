@@ -5,3 +5,6 @@ tags
 _build/
 erl_crash.dump
 deps/
+cover/
+apps/**/cover/
+priv/plts/

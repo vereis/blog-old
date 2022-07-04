@@ -1,11 +1,12 @@
 defmodule Blog.Application do
   # See https://hexdocs.pm/elixir/Application.html
   # for more information on OTP Applications
+  # coveralls-ignore-start
   @moduledoc false
 
   use Application
 
-  @impl true
+  @impl Application
   def start(_type, _args) do
     children = [
       # Start the Ecto repository
@@ -18,4 +19,6 @@ defmodule Blog.Application do
 
     Supervisor.start_link(children, strategy: :one_for_one, name: Blog.Supervisor)
   end
+
+  # coveralls-ignore-stop
 end

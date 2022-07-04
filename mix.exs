@@ -7,7 +7,22 @@ defmodule Blog.Umbrella.MixProject do
       version: "0.1.0",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
-      aliases: aliases()
+      aliases: aliases(),
+      dialyzer: [
+        plt_add_apps: [:iex, :mix, :ex_unit],
+        plt_file: {:no_warn, "priv/plts/dialyzer.plt"},
+        flags: [:error_handling, :race_conditions]
+      ],
+      test_coverage: [tool: ExCoveralls],
+      preferred_cli_env: [
+        lint: :test,
+        dialyzer: :test,
+        coveralls: :test,
+        "coveralls.detail": :test,
+        "coveralls.post": :test,
+        "coveralls.html": :test,
+        "test.watch": :test
+      ]
     ]
   end
 
@@ -24,7 +39,14 @@ defmodule Blog.Umbrella.MixProject do
   # Dependencies listed here are available only for this project
   # and cannot be accessed from applications inside the apps/ folder.
   defp deps do
-    []
+    [
+      {:sobelow, "~> 0.11", only: :dev, runetime: false},
+      {:credo, "~> 1.6", only: [:dev, :test], runtime: false},
+      {:dialyxir, "~> 1.0", only: [:dev, :test], runtime: false},
+      {:ex_doc, "~> 0.28", only: :test},
+      {:excoveralls, "~> 0.10", only: :test},
+      {:mix_test_watch, "~> 1.0", only: [:test], runtime: false}
+    ]
   end
 
   # Aliases are shortcuts or tasks specific to the current project.
@@ -38,8 +60,14 @@ defmodule Blog.Umbrella.MixProject do
   # and cannot be accessed from applications inside the apps/ folder.
   defp aliases do
     [
-      # run `mix setup` in all child apps
-      setup: ["cmd mix setup"]
+      test: ["coveralls --umbrella --trace --slowest 10"],
+      lint: [
+        "format --check-formatted --dry-run",
+        "credo --strict",
+        "compile --warnings-as-errors",
+        "cmd --app blog_web mix sobelow --config",
+        "dialyzer"
+      ]
     ]
   end
 end

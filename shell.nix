@@ -25,4 +25,7 @@ mkShell {
   POSTGRES_USER = "postgres";
   POSTGRES_PASSWORD = "postgres";
   POSTGRES_DB = "blog_dev";
+
+  GITHUB_REPO_NAME = "vereis/blog";
+  GITHUB_REPO_ACCESS_TOKEN = "Please configure and source .secrets";
 }

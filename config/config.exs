@@ -9,9 +9,8 @@
 # move said applications out of the umbrella.
 import Config
 
-config :blog, Blog.GitHub,
-  access_token: System.fetch_env!("GITHUB_REPO_ACCESS_TOKEN"),
-  repo_name: System.fetch_env!("GITHUB_REPO_NAME")
+config :blog, Blog.GitHub, access_token: System.fetch_env!("GITHUB_REPO_ACCESS_TOKEN")
+config :blog, Blog.Poller, repo_name: System.fetch_env!("GITHUB_REPO_NAME")
 
 # Configure Mix tasks and generators
 config :blog,

@@ -9,12 +9,9 @@ defmodule Blog.Application do
   @impl Application
   def start(_type, _args) do
     children = [
-      # Start the Ecto repository
       Blog.Repo,
-      # Start the PubSub system
-      {Phoenix.PubSub, name: Blog.PubSub}
-      # Start a worker by calling: Blog.Worker.start_link(arg)
-      # {Blog.Worker, arg}
+      {Phoenix.PubSub, name: Blog.PubSub},
+      {Oban, Application.fetch_env!(:blog, Oban)}
     ]
 
     Supervisor.start_link(children, strategy: :one_for_one, name: Blog.Supervisor)

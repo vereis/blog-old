@@ -8,7 +8,6 @@ defmodule Blog.Poller do
 
   alias Blog.GitHub
   alias Blog.Posts
-  alias Blog.Posts.Post
 
   @owner Application.compile_env!(:blog, __MODULE__)[:repo_name]
          |> String.split("/")

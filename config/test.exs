@@ -13,7 +13,7 @@ config :blog, Blog.Repo,
   pool: Ecto.Adapters.SQL.Sandbox,
   pool_size: 10
 
-config :blog, Oban, testing: :inline
+config :blog, Oban, testing: :manual
 
 # We don't run a server during test. If one is required,
 # you can enable the server option below.

@@ -37,6 +37,8 @@ defmodule Blog.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
+      {:tesla, "~> 1.4"},
+      {:finch, "~> 0.3"},
       {:oban, "~> 2.12"},
       {:phoenix_pubsub, "~> 2.0"},
       {:ecto_sql, "~> 3.6"},

@@ -10,6 +10,7 @@ defmodule Blog.Application do
   def start(_type, _args) do
     children = [
       Blog.Repo,
+      {Finch, name: Blog.Finch},
       {Phoenix.PubSub, name: Blog.PubSub},
       {Oban, Application.fetch_env!(:blog, Oban)}
     ]

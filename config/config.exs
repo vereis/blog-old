@@ -18,6 +18,8 @@ config :blog, Oban,
   plugins: [Oban.Plugins.Pruner],
   queues: [default: 10]
 
+config :tesla, :adapter, {Tesla.Adapter.Finch, name: Blog.Finch}
+
 # Configures the mailer
 #
 # By default it uses the "Local" adapter which stores the emails

@@ -60,6 +60,7 @@ defmodule Blog.Umbrella.MixProject do
   # and cannot be accessed from applications inside the apps/ folder.
   defp aliases do
     [
+      "assets.deploy": ["tailwind default --minify", "esbuild default --minify", "phx.digest"],
       test: ["coveralls.html --umbrella --trace --slowest 10"],
       lint: [
         "format --check-formatted --dry-run",

@@ -67,6 +67,18 @@ config :logger, :console,
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
 
+# Ensure you run `mix tailwind.install` as well
+config :tailwind,
+  version: "3.1.4",
+  default: [
+    args: [
+      "--config=tailwind.config.js",
+      "--input=css/app.css",
+      "--output=../priv/static/assets/app.css"
+    ],
+    cd: Path.expand("../apps/blog_web/assets", __DIR__)
+  ]
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{config_env()}.exs"

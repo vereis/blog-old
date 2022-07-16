@@ -6,12 +6,11 @@ defmodule BlogWeb.RootLive do
 
   use BlogWeb, :live_view
 
+  alias Blog.Posts.Post
+  alias Blog.Repo
+
   alias BlogWeb.Components.Nav
   alias BlogWeb.Components.Posts
-  alias Blog.Repo
-  alias Blog.Posts.Post
-
-  alias Heroicons.LiveView, as: Heroicons
 
   @impl Phoenix.LiveView
   def mount(_params, _session, socket) do
@@ -65,6 +64,7 @@ defmodule BlogWeb.RootLive do
     {:noreply, push_patch(socket, to: "/")}
   end
 
+  @impl Phoenix.LiveView
   def handle_params(%{"slug" => post_slug}, uri, socket) do
     socket =
       socket

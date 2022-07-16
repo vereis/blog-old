@@ -7,7 +7,7 @@ defmodule BlogWeb.Components.Posts do
 
   def index(assigns) do
     ~H"""
-    <main class={"
+    <main id="posts-index" class={"
       #{if @state in [:about, :post], do: "brightness-50"}
       transition transform-gpu ease-in-out duration-300 h-full
       absolute pt-10 bg-white w-full max-h-full overflow-y-scroll

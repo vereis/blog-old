@@ -64,7 +64,7 @@ defmodule BlogWeb.Components.Nav do
           <%= Signature.svg("h-10 transform-gpu hover:scale-150 hover:text-rose-400 hover:-rotate-12 transition duration-200") %>
         </span>
       </nav>
-      <div class="flex flex-col px-4 space-y-0.5 mt-6">
+      <div id="sidebar-links" class="flex flex-col px-4 space-y-0.5 mt-6">
         <%= for link <- local_links do %>
           <.sidebar_link state={@state} link={link} />
         <% end %>

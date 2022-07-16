@@ -25,6 +25,7 @@ defmodule BlogWeb.RootLive do
       |> assign_new(:posts, fn -> posts end)
       |> assign_new(:state, fn -> :about end)
       |> assign_new(:post, fn -> List.last(posts) end)
+      |> assign_new(:uri, fn -> "" end)
 
     {:ok, socket}
   end
@@ -32,11 +33,11 @@ defmodule BlogWeb.RootLive do
   @impl Phoenix.LiveView
   def render(assigns) do
     ~H"""
-    <Nav.sidebar state={@state} />
     <.root state={@state} >
-      <Nav.bar state={@state} title={@post.title} show_logo={@post.slug == "about_me"} />
+      <Nav.sidebar state={@state} />
+      <Nav.bar state={@state} title={@post.title} />
       <Nav.main>
-        <Posts.index posts={@posts} state={@state} />
+        <Posts.index posts={@posts} state={@state} uri={@uri} />
         <Posts.content post={@post} state={@state} />
       </Nav.main>
     </.root>
@@ -45,9 +46,7 @@ defmodule BlogWeb.RootLive do
 
   def root(assigns) do
     ~H"""
-    <div id="root" phx-click={Nav.hide_sidebar()} class="
-      transition transform-gpu ease-in-out duration-300 flex flex-col max-h-full h-full
-    ">
+    <div id="root" class="flex flex-col max-h-full h-full 2xl:flex-row">
       <%= render_slot(@inner_block) %>
     </div>
     """
@@ -71,6 +70,7 @@ defmodule BlogWeb.RootLive do
       socket
       |> assign(:state, state_of(uri))
       |> assign(:post, Blog.Repo.get_by(Blog.Posts.Post, slug: post_slug))
+      |> assign(:uri, uri)
 
     {:noreply, socket}
   end

@@ -1,7 +1,8 @@
 defmodule BlogWeb.Components.Posts do
+  @moduledoc false
+
   use Phoenix.Component
 
-  alias Phoenix.LiveView.JS
   alias Heroicons.LiveView, as: Heroicons
 
   def index(assigns) do

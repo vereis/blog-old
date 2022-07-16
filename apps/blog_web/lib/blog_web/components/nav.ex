@@ -1,12 +1,16 @@
 defmodule BlogWeb.Components.Nav do
+  @moduledoc false
+
   use Phoenix.Component
 
   alias Phoenix.LiveView.JS
+
   alias BlogWeb.Components.Nav.Signature
-  alias Heroicons.LiveView, as: Heroicons
   alias FontAwesome.LiveView, as: FontAwesome
+  alias Heroicons.LiveView, as: Heroicons
 
   defmodule Link do
+    @moduledoc false
     defstruct [:label, :icon, :href, :action, states: [], args: %{}]
   end
 
@@ -88,7 +92,7 @@ defmodule BlogWeb.Components.Nav do
         <%= cond do %>
           <% is_nil(@link.icon) -> %>
             <Heroicons.icon name="link" type="outline" class="h-5 w-5" />
-          <%= assigns[:external] -> %>
+          <% assigns[:external] -> %>
             <FontAwesome.icon name={@link.icon} type="brands" class="h-5 w-5" />
           <% true -> %>
             <Heroicons.icon name={@link.icon} type="outline" class="h-5 w-5" />

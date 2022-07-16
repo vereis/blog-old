@@ -1,4 +1,6 @@
 defmodule BlogWeb.Components.Nav.Signature do
+  @moduledoc false
+
   def svg(args \\ "h-8") do
     {:safe,
      """

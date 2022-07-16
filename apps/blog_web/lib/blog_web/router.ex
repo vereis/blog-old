@@ -15,6 +15,8 @@ defmodule BlogWeb.Router do
     pipe_through(:browser)
 
     live("/", RootLive, :home)
+    live("/posts/", RootLive, :home)
+    live("/posts/:slug", RootLive, :home)
     live_dashboard("/dashboard", metrics: BlogWeb.Telemetry)
   end
 end

@@ -11,9 +11,11 @@ defmodule BlogWeb.Components.Posts do
       transition transform-gpu ease-in-out duration-300 h-full
       absolute pt-10 bg-white min-w-full max-h-full overflow-y-scroll
     "}>
-      <%= for post <- @posts, not post.is_draft do %>
-        <.post post={post} />
-      <% end %>
+      <div class="max-w-prose mx-auto">
+        <%= for post <- @posts, not post.is_draft do %>
+          <.post post={post} />
+        <% end %>
+      </div>
     </main>
     """
   end
@@ -57,7 +59,10 @@ defmodule BlogWeb.Components.Posts do
       <article class={"
         #{if @state not in [:about, :post], do: "translate-x-full"}
         absolute transform-gpu transition-transform ease-in-out duration-300
-        h-full bg-white max-h-full max-w-prose w-full max-w-screen overflow-y-scroll
+        h-full max-h-full bg-white w-full max-w-none overflow-y-scroll
+      "}>
+      <div class="
+        mx-auto
         prose pt-10 py-8 px-10 prose prose-neutral
         prose-h1:text-2xl prose-h1:font-bold
         prose-h2:text-xl  prose-h2:font-bold
@@ -66,8 +71,9 @@ defmodule BlogWeb.Components.Posts do
         prose-code:before:content-none prose-code:after:content-none prose-code:font-semibold
         prose-a:underline prose-a:decoration-wavy prose-a:decoration-rose-400 prose-a:underline-offset-2
         prose-a:font-semibold
-      "}>
-      <%= {:safe, @post.content } %>
+      ">
+        <%= {:safe, @post.content } %>
+      </div>
     </article>
     """
   end

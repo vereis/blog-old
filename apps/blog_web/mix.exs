@@ -52,7 +52,9 @@ defmodule BlogWeb.MixProject do
       {:blog, in_umbrella: true},
       {:jason, "~> 1.2"},
       {:plug_cowboy, "~> 2.5"},
-      {:tailwind, "~> 0.1", runtime: Mix.env() == :dev}
+      {:tailwind, "~> 0.1", runtime: Mix.env() == :dev},
+      {:ex_heroicons, "~> 0.6.0"},
+      {:ex_fontawesome, "~> 0.7.1"}
     ]
   end
 

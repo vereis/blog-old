@@ -4,6 +4,13 @@ defmodule BlogWeb.Components.Posts do
   use Phoenix.Component
 
   alias Heroicons.LiveView, as: Heroicons
+  alias Phoenix.LiveView.JS
+
+  def select_post(js \\ %JS{}) do
+    js
+    |> JS.dispatch("reset-scroll")
+    |> JS.push("select-post")
+  end
 
   def index(assigns) do
     ~H"""
@@ -24,11 +31,11 @@ defmodule BlogWeb.Components.Posts do
 
   def post(assigns) do
     ~H"""
-    <div phx-click="select-post" phx-value-post-slug={@post.slug} class={"
+    <div phx-click={select_post()} phx-value-post-slug={@post.slug} class={"
       cursor-pointer select-none
       block py-6 px-10 md:py-5 md:px-5 md:border-b #{@state == :post && @uri =~ @post.slug && "md:bg-rose-100/30"}
     "}>
-      <a href="#" class="font-semibold underline decoration-wavy decoration-rose-400 underline-offset-2">
+      <a href="#" class="font-semibold">
         <%= @post.title %>
       </a>
       <div class="flex space-x-2 mt-2">
@@ -61,7 +68,7 @@ defmodule BlogWeb.Components.Posts do
 
   def content(assigns) do
     ~H"""
-      <article class={"
+      <article id="content" class={"
         #{if @state not in [:about, :post], do: "translate-x-full"}
         absolute transform-gpu transition-transform ease-in-out duration-300
         h-full max-h-full bg-white w-full max-w-none overflow-y-scroll
@@ -75,8 +82,7 @@ defmodule BlogWeb.Components.Posts do
         prose-h3:text-xl  prose-h3:font-bold
         prose-pre:overflow-x-auto
         prose-code:before:content-none prose-code:after:content-none prose-code:font-semibold
-        prose-a:underline prose-a:decoration-wavy prose-a:decoration-rose-400 prose-a:underline-offset-2
-        prose-a:font-semibold
+        hover:prose-a:text-rose-400 prose-a:font-semibold prose-a:underline prose-a:underline-offset-4 prose-a:underline-thickness-2
         md:pt-18 md:pb-18 lg:pt-28 lg:pb-28 2xl:pt-36 2xl:pb-36
         2xl:max-w-3xl
         2xl:prose-h1:text-4xl prose-h1:font-bold

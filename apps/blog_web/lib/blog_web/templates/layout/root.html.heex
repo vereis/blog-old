@@ -12,4 +12,10 @@
   <body>
     <%= @inner_content %>
   </body>
+  <script>
+    window.addEventListener("reset-scroll", e => {
+      const content = document.querySelector("#content");
+      if (content) content.scrollTop = 0;
+    })
+  </script>
 </html>

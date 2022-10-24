@@ -14,16 +14,11 @@ defmodule BlogWeb.RootLive do
 
   @impl Phoenix.LiveView
   def mount(_params, _session, socket) do
-    alias Blog.Repo
-    import Ecto.Query
-
-    posts = Repo.all(from(x in Blog.Posts.Post, order_by: [desc: x.created_at]))
-
     socket =
       socket
-      |> assign_new(:posts, fn -> posts end)
+      |> assign_new(:posts, fn -> Blog.Posts.list_posts!(latest_first: true) end)
+      |> assign_new(:post, fn -> Blog.Posts.get_post!(id: 1) end)
       |> assign_new(:state, fn -> :about end)
-      |> assign_new(:post, fn -> List.last(posts) end)
       |> assign_new(:uri, fn -> "" end)
 
     {:ok, socket}
@@ -69,7 +64,7 @@ defmodule BlogWeb.RootLive do
     socket =
       socket
       |> assign(:state, state_of(uri))
-      |> assign(:post, Blog.Repo.get_by(Blog.Posts.Post, slug: post_slug))
+      |> assign(:post, Blog.Posts.get_post!(slug: post_slug))
       |> assign(:uri, uri)
 
     {:noreply, socket}

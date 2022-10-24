@@ -18,6 +18,8 @@ defmodule BlogWeb.Router do
     live("/posts/", RootLive, :home)
     live("/posts/:slug", RootLive, :home)
 
+    get("/rss", RssController, :index)
+
     # coveralls-ignore-start
     live_dashboard("/dashboard", metrics: BlogWeb.Telemetry)
   end

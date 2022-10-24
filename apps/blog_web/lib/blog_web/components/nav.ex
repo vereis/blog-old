@@ -35,7 +35,7 @@ defmodule BlogWeb.Components.Nav do
       %Link{label: "About Me", icon: "finger-print", action: "select-about", states: [:about]},
       %Link{label: "Posts", icon: "folder-open", action: "select-index", states: [:post, :index]},
       %Link{label: "Resume", icon: "document-text", href: "https://cbailey.co.uk/assets/cv.pdf"},
-      %Link{label: "RSS", icon: "rss", href: "https://cbailey.co.uk/assets/cv.pdf"}
+      %Link{label: "RSS", icon: "rss", href: "/rss"}
     ]
 
     remote_links = [
@@ -86,7 +86,8 @@ defmodule BlogWeb.Components.Nav do
     <a href={@link.href} phx-click={@link.action && JS.push(hide_sidebar(), @link.action, value: @link.args)} class={"
       #{if @state in @link.states, do: "underline decoration-rose-400 hover:decoration-rose-400"}
       flex items-center space bg-white px-2 py-2.5 rounded-md text-sm justify-between
-      hover:underline hover:decoration-gray-400 decoration-wavy underline-offset-4 cursor-pointer select-none
+      hover:underline #{if @state not in @link.states, do: "hover:decoration-gray-400"}
+      decoration-wavy underline-offset-4 cursor-pointer select-none
     "}>
       <span class="flex items-center space-x-2.5">
         <%= cond do %>

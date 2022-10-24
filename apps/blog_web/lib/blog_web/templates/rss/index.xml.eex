@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <% now = DateTime.utc_now() %>
+  <% rfc_822 =  "%a, %d %b %Y %H:%M:%S UT" %>
+  <% all_tags = @posts
+     |> Enum.flat_map(& &1.tags)
+     |> Enum.uniq()
+     |> Enum.sort()
+     |> Enum.join("/") %>
+  <channel>
+    <title>Chris Bailey's blog</title>
+    <link><%= "/posts" %></link>
+    <atom:link href="<%= Routes.rss_url(@conn, :index) %>" rel="self" type="application/rss+xml" />
+    <description>
+      A collection of my thoughts, oftentimes programming related. I primarily dabble in Erlang/Elixir programming,
+      or describing various things around programming languages, development environments, and operating systems.
+    </description>
+    <language>en</language>
+    <copyright>Copyright <%= now.year %> Chris Bailey</copyright>
+    <lastBuildDate><%= Calendar.strftime(now, rfc_822) %></lastBuildDate>
+    <category><%= all_tags %></category>
+    <ttl><%= 60 * 24 %></ttl>
+    <%= for post <- @posts do %>
+      <item>
+        <title><%= post.title %></title>
+        <link><%= "/posts/#{post.slug}" %></link>
+        <guid><%= "/posts/#{post.slug}" %></guid>
+        <description><![CDATA[ <%= post.content %> ]]></description>
+        <%= for tag <- post.tags do %>
+          <category><%= tag %></category>
+        <% end %>
+        <pubDate><%= Calendar.strftime(post.created_at, rfc_822) %></pubDate>
+      </item>
+    <% end %>
+  </channel>
+</rss>

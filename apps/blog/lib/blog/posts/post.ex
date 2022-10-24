@@ -6,6 +6,7 @@ defmodule Blog.Posts.Post do
   use Ecto.Schema
 
   import Ecto.Changeset
+  import Ecto.Query
 
   alias __MODULE__
 
@@ -81,5 +82,30 @@ defmodule Blog.Posts.Post do
 
   defp put_estimated_reading_time(%Ecto.Changeset{} = changeset) do
     changeset
+  end
+
+  @spec base_query :: Ecto.Queryable.t()
+  def base_query do
+    Post
+  end
+
+  @spec query(Ecto.Queryable.t(), Keyword.t()) :: Ecto.Queryable.t()
+  def query(base_query \\ base_query(), filters) do
+    Enum.reduce(filters, base_query, fn
+      {:latest_first, true}, query ->
+        from(post in query, order_by: {:desc, post.created_at})
+
+      {:id, id}, query ->
+        from(post in query, where: post.id == ^id)
+
+      {:slug, slug}, query ->
+        from(post in query, where: post.slug == ^slug)
+
+      {:limit, limit}, query ->
+        from(post in query, limit: ^limit)
+
+      _unsupported_filter, query ->
+        query
+    end)
   end
 end

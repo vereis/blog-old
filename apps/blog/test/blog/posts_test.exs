@@ -43,4 +43,12 @@ defmodule Blog.PostsTest do
       assert Repo.aggregate(Post, :count) == 1
     end
   end
+
+  describe "get_post/1" do
+    test "given understood arguments, returns result" do
+      post = insert(:post)
+      assert {:ok, %Post{} = returned_post} = Posts.get_post(id: post.id)
+      assert returned_post.id == post.id
+    end
+  end
 end

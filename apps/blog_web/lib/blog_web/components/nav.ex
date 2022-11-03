@@ -11,7 +11,7 @@ defmodule BlogWeb.Components.Nav do
 
   defmodule Link do
     @moduledoc false
-    defstruct [:label, :icon, :href, :action, states: [], args: %{}]
+    defstruct [:label, :icon, :href, :action, states: [], args: %{}, styles: ""]
   end
 
   def hide_sidebar(js \\ %JS{}) do
@@ -33,7 +33,13 @@ defmodule BlogWeb.Components.Nav do
   def sidebar(assigns) do
     local_links = [
       %Link{label: "About Me", icon: "finger-print", action: "select-about", states: [:about]},
-      %Link{label: "Posts", icon: "folder-open", action: "select-index", states: [:post, :index]},
+      %Link{
+        label: "Posts",
+        icon: "folder-open",
+        action: "select-index",
+        states: [:post, :index],
+        styles: "lg:hidden"
+      },
       %Link{label: "Resume", icon: "document-text", href: "https://cbailey.co.uk/assets/cv.pdf"},
       %Link{label: "RSS", icon: "rss", href: "/rss"}
     ]
@@ -87,7 +93,7 @@ defmodule BlogWeb.Components.Nav do
       #{if @state in @link.states, do: "underline decoration-rose-400 hover:decoration-rose-400"}
       flex items-center space bg-white px-2 py-2.5 rounded-md text-sm justify-between
       hover:underline #{if @state not in @link.states, do: "hover:decoration-gray-400"}
-      decoration-wavy underline-offset-4 cursor-pointer select-none
+      decoration-wavy underline-offset-4 cursor-pointer select-none #{@link.styles}
     "}>
       <span class="flex items-center space-x-2.5">
         <%= cond do %>

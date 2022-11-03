@@ -5,9 +5,9 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ["Source Sans Pro", ...defaultTheme.fontFamily.sans],
+        sans: ["Inter", ...defaultTheme.fontFamily.sans],
         serif: ["Libre Baskerville", ...defaultTheme.fontFamily.serif],
-        mono: ["IBM Plex Mono", ...defaultTheme.fontFamily.mono],
+        mono: ["Fira Code", ...defaultTheme.fontFamily.mono],
       },
       spacing: {
         128: "32rem",

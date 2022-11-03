@@ -76,7 +76,7 @@ defmodule BlogWeb.Components.Posts do
       "}>
       <div class="
         mx-auto
-        pt-12 pb-12 px-10 prose prose-neutral text-lg
+        pt-12 pb-12 px-5 prose prose-neutral text-lg leading-loose
         prose-h1:text-3xl prose-h1:font-bold
         prose-h2:text-2xl prose-h2:font-bold
         prose-h3:text-xl prose-h3:font-bold
@@ -88,8 +88,8 @@ defmodule BlogWeb.Components.Posts do
         prose-h2:mb-6
         prose-h3:mb-6
         prose-h4:mb-6
-        prose-pre:overflow-x-auto prose-pre:text-sm
-        prose-code:before:content-none prose-code:after:content-none
+        prose-pre:overflow-x-auto
+        prose-code:before:content-none prose-code:after:content-none prose-code:text-lg
         hover:prose-a:text-rose-400 prose-a:font-semibold prose-a:underline prose-a:underline-offset-4 prose-a:underline-thickness-2
         md:pt-18 md:pb-18 lg:pt-28 lg:pb-28 2xl:pt-36 2xl:pb-36
         2xl:max-w-3xl

@@ -45,7 +45,6 @@ defmodule Blog.Umbrella.MixProject do
       {:dialyxir, "~> 1.0", only: [:dev, :test], runtime: false},
       {:ex_doc, "~> 0.28", only: :test},
       {:excoveralls, "~> 0.10", only: :test},
-      {:ex_machina, "~> 2.7.0", only: :test},
       {:mix_test_watch, "~> 1.0", only: [:test], runtime: false}
     ]
   end

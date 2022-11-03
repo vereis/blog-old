@@ -76,19 +76,26 @@ defmodule BlogWeb.Components.Posts do
       "}>
       <div class="
         mx-auto
-        prose pt-12 pb-12 px-10 prose prose-neutral
+        pt-12 pb-12 px-10 prose prose-neutral text-lg
         prose-h1:text-3xl prose-h1:font-bold
-        prose-h2:text-2xl  prose-h2:font-bold
-        prose-h3:text-xl  prose-h3:font-bold
-        prose-pre:overflow-x-auto
-        prose-code:before:content-none prose-code:after:content-none prose-code:font-semibold
+        prose-h2:text-2xl prose-h2:font-bold
+        prose-h3:text-xl prose-h3:font-bold
+        prose-h1:font-serif
+        prose-h2:font-serif
+        prose-h3:font-serif
+        prose-h4:font-serif
+        prose-h1:mb-12
+        prose-h2:mb-6
+        prose-h3:mb-6
+        prose-h4:mb-6
+        prose-pre:overflow-x-auto prose-pre:text-sm
+        prose-code:before:content-none prose-code:after:content-none
         hover:prose-a:text-rose-400 prose-a:font-semibold prose-a:underline prose-a:underline-offset-4 prose-a:underline-thickness-2
         md:pt-18 md:pb-18 lg:pt-28 lg:pb-28 2xl:pt-36 2xl:pb-36
         2xl:max-w-3xl
         2xl:prose-h1:text-4xl prose-h1:font-bold
-        2xl:prose-h2:text-3xl  prose-h2:font-bold
-        2xl:prose-h3:text-2xl  prose-h3:font-bold
-        2xl:text-lg
+        2xl:prose-h2:text-3xl prose-h2:font-bold
+        2xl:prose-h3:text-2xl prose-h3:font-bold
       ">
         <%= {:safe, @post.content } %>
       </div>

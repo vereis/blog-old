@@ -3,6 +3,8 @@ defmodule Blog.Posts do
   Context module for manipulating and querying data related to Blog Posts.
   """
 
+  import Blog.Utils
+
   alias Blog.Posts.Post
   alias Blog.Repo
 
@@ -17,22 +19,23 @@ defmodule Blog.Posts do
   def get_post!(filters), do: filters |> get_post() |> then(fn {:ok, result} -> result end)
 
   @spec get_post(filters :: Keyword.t()) :: {:ok, Post.t()} | {:error, term()}
-  def get_post(filters) do
+  def get_post(filters \\ []) do
     filters
     |> Keyword.put(:limit, 1)
     |> Post.query()
     |> Repo.one()
-    |> then(&{:ok, &1})
+    |> return_ok()
   end
 
   @spec list_posts!(filters :: Keyword.t()) :: [Post.t()]
-  def list_posts!(filters), do: filters |> list_posts() |> then(fn {:ok, result} -> result end)
+  def list_posts!(filters \\ []),
+    do: filters |> list_posts() |> then(fn {:ok, result} -> result end)
 
   @spec list_posts(filters :: Keyword.t()) :: {:ok, [Post.t()]}
   def list_posts(filters \\ []) do
     filters
     |> Post.query()
     |> Repo.all()
-    |> then(&{:ok, &1})
+    |> return_ok()
   end
 end

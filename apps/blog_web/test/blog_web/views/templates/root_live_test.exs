@@ -107,7 +107,7 @@ defmodule BlogWeb.Layouts.RootLiveTest do
                |> then(fn {:ok, view, _html} -> view end)
 
       assert view
-             |> element("#posts-index div[phx-click=\"select-post\"]", "post title")
+             |> element("#posts-index div[phx-click]", "post title")
              |> render_click()
 
       assert_patched(view, "/posts/post_title")

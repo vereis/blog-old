@@ -20,6 +20,11 @@ exclude_modules = fn app, modules when is_list(modules) ->
   {:files, %{excluded: [~r/#{excluded_app}.+\/(#{excluded_modules})/]}}
 end
 
+# Exclude check from test modules
+exclude_tests = fn ->
+  {:files, %{excluded: [~r/.+\/test\/.+/]}}
+end
+
 %{
   configs: [
     %{
@@ -119,7 +124,7 @@ end
           ## Checks which should always be on for consistency-sake IMO ---------
           {Check.Consistency.MultiAliasImportRequireUse, []},
           {Check.Consistency.UnusedVariableNames, force: :meaningful},
-          {Check.Design.DuplicatedCode, []},
+          {Check.Design.DuplicatedCode, [exclude_tests.()]},
           {Check.Design.SkipTestWithoutComment, []},
           {Check.Readability.ImplTrue, []},
           {Check.Readability.MultiAlias, []},

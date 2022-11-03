@@ -33,7 +33,7 @@ defmodule BlogWeb.Components.Posts do
     ~H"""
     <div phx-click={select_post()} phx-value-post-slug={@post.slug} class={"
       cursor-pointer select-none
-      block py-6 px-10 md:py-5 md:px-5 md:border-b #{@state == :post && @uri =~ @post.slug && "md:bg-rose-100/30"}
+      block py-6 px-10 md:py-5 md:px-5 md:border-b hover:bg-gray-100/50
     "}>
       <a href="#" class="font-semibold">
         <%= @post.title %>

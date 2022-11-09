@@ -8,6 +8,7 @@ defmodule Blog.Umbrella.MixProject do
       start_permanent: Mix.env() == :prod,
       deps: deps(),
       aliases: aliases(),
+      releases: releases(),
       dialyzer: [
         plt_add_apps: [:iex, :mix, :ex_unit],
         plt_file: {:no_warn, "priv/plts/dialyzer.plt"},
@@ -68,6 +69,17 @@ defmodule Blog.Umbrella.MixProject do
         "compile --warnings-as-errors",
         "cmd --app blog_web mix sobelow --config",
         "dialyzer"
+      ]
+    ]
+  end
+
+  defp releases do
+    [
+      blog: [
+        applications: [
+          blog: :permanent,
+          blog_web: :permanent
+        ]
       ]
     ]
   end

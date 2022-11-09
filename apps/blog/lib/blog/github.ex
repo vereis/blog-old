@@ -13,11 +13,12 @@ defmodule Blog.GitHub do
   use Tesla
   import Blog.Utils
 
+  alias Blog.Config
+
   @type graphql_query :: String.t()
-  @access_token Application.compile_env!(:blog, __MODULE__)[:access_token]
 
   plug(Tesla.Middleware.BaseUrl, "https://api.github.com/graphql")
-  plug(Tesla.Middleware.Headers, [{"authorization", "Bearer " <> @access_token}])
+  plug(Tesla.Middleware.Headers, [{"authorization", "Bearer " <> Config.access_token!()}])
   plug(Tesla.Middleware.JSON)
 
   @spec query(graphql_query(), variables :: map()) :: {:ok, map()} | {:error, map()}

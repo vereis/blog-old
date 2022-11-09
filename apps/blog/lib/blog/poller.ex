@@ -6,16 +6,9 @@ defmodule Blog.Poller do
 
   import Blog.Utils
 
+  alias Blog.Config
   alias Blog.GitHub
   alias Blog.Posts
-
-  @owner Application.compile_env!(:blog, __MODULE__)[:repo_name]
-         |> String.split("/")
-         |> List.first()
-
-  @repo Application.compile_env!(:blog, __MODULE__)[:repo_name]
-        |> String.split("/")
-        |> List.last()
 
   @query """
   query($owner: String!, $repo: String!, $count: Int!, $filters: IssueFilters!, $sort: IssueOrder!, $cursor: String) {
@@ -81,13 +74,19 @@ defmodule Blog.Poller do
   end
 
   defp build_params(cursor) do
+    owner = owner()
+    repo = repo()
+
     %{
       count: 5,
-      owner: @owner,
-      repo: @repo,
-      filters: %{createdBy: @owner},
+      owner: owner,
+      repo: repo,
+      filters: %{createdBy: owner},
       sort: %{field: "CREATED_AT", direction: "DESC"},
       cursor: cursor
     }
   end
+
+  defp owner, do: Config.repo!() |> String.split("/") |> List.first()
+  defp repo, do: Config.repo!() |> String.split("/") |> List.last()
 end

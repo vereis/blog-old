@@ -116,9 +116,23 @@ defmodule BlogWeb.Components.Nav do
   def bar(assigns) do
     ~H"""
     <nav phx-click={hide_sidebar()} class="
-      sticky top-0 w-full flex items-center justify-between p-4 bg-white z-40
-      transition transform-gpu ease-in-out duration-300
-      shadow-xl md:shadow-none md:border-b 2xl:hidden
+      2xl:hidden
+      bg-white
+      duration-300
+      ease-in-out
+      flex
+      items-center
+      justify-between
+      md:border-b
+      md:shadow-none
+      p-4
+      shadow-xl
+      sticky
+      top-0
+      transform-gpu
+      transition
+      w-full
+      z-40
     ">
       <.action_left state={@state} />
       <.title state={@state} title={@title} />
@@ -148,20 +162,38 @@ defmodule BlogWeb.Components.Nav do
     """
   end
 
+  def action_left(assigns) when assigns.state == :post do
+    ~H"""
+    <div class={"
+      #{assigns[:class]}
+      cursor-pointer
+      select-none
+    "} phx-click="select-index">
+      <Heroicons.icon name="arrow-narrow-left" type="outline" class="h-4 w-4 shrink-0" />
+    </div>
+    """
+  end
+
   def action_left(assigns) do
     ~H"""
-    <div class={"cursor-pointer select-none #{@state in [:index, :about] && "xs:block sm:block" || "hidden"} md:block"} phx-click={show_sidebar()}>
+    <div class={"
+      #{assigns[:class]}
+      cursor-pointer
+      select-none
+    "} phx-click={show_sidebar()}>
       <Heroicons.icon name="menu" type="outline" class="h-4 w-4" />
-    </div>
-    <div class={"cursor-pointer select-none #{@state == :post && "block" || "hidden"} md:hidden"} phx-click="select-index">
-      <Heroicons.icon name="arrow-narrow-left" type="outline" class="h-4 w-4 shrink-0" />
     </div>
     """
   end
 
   def action_right(assigns) do
     ~H"""
-    <Heroicons.icon name="sun" type="outline" class="h-4 w-4 shrink-0 invisible" />
+    <Heroicons.icon name="sun" type="outline" class={"
+      h-4
+      w-4
+      shrink-0
+      #{assigns[:class]}
+    "}/>
     """
   end
 end

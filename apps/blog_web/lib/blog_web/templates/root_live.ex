@@ -29,7 +29,7 @@ defmodule BlogWeb.RootLive do
     ~H"""
     <.root state={@state} >
       <Nav.sidebar state={@state} />
-      <Nav.bar state={@state} title={@post.title} />
+      <!--<Nav.bar state={@state} title={@post.title} />-->
       <Nav.main>
         <Posts.index posts={@posts} state={@state} uri={@uri} />
         <Posts.content post={@post} state={@state} />

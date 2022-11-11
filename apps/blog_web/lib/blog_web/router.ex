@@ -17,7 +17,7 @@ defmodule BlogWeb.Router do
     live("/", RootLive, :home)
     live("/posts/", RootLive, :home)
     live("/posts/:slug", RootLive, :home)
-    live("/posts_by_id/:id", RootLive, :home)
+    live("/posts/by_id/:id", RootLive, :home)
 
     get("/rss", RssController, :index)
 

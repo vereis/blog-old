@@ -20,7 +20,7 @@ defmodule BlogWeb.RootLive do
       socket
       |> assign_new(:posts, fn -> Blog.Posts.list_posts!(latest_first: true) end)
       |> assign_new(:post, fn -> Blog.Posts.get_post!(id: post_id) end)
-      |> assign_new(:state, fn -> :about end)
+      |> assign_new(:state, fn -> (post_id === 1 && :about) || :post end)
       |> assign_new(:uri, fn -> "" end)
 
     {:ok, socket}

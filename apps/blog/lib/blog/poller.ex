@@ -93,6 +93,6 @@ defmodule Blog.Poller do
 
   defp build_attrs(post) do
     post
-    |> Map.update("content", "", &Regex.replace(~r/href="#/, &1, "href=\"/posts_by_id/"))
+    |> Map.update("content", "", &Regex.replace(~r/href="#/, &1, "href=\"/posts/by_id/"))
   end
 end

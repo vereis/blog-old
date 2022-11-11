@@ -198,6 +198,7 @@ defmodule BlogWeb.Components.Posts do
         md:pb-5
         md:pt-5
         mx-auto
+        pt-4
         pb-12
         prose
         prose-sm
@@ -221,8 +222,6 @@ defmodule BlogWeb.Components.Posts do
         prose-pre:overflow-x-auto
         prose-pre:bg-black/90
         sm:py-12
-        prose-h1:hidden
-        sm:prose-h1:block
         pb-4
         px-4
         lg:prose-h1:text-3xl

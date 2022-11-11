@@ -13,11 +13,13 @@ defmodule BlogWeb.RootLive do
   alias BlogWeb.Components.Posts
 
   @impl Phoenix.LiveView
-  def mount(_params, _session, socket) do
+  def mount(params, _session, socket) do
+    post_id = params |> Map.get("id", "1") |> String.to_integer()
+
     socket =
       socket
       |> assign_new(:posts, fn -> Blog.Posts.list_posts!(latest_first: true) end)
-      |> assign_new(:post, fn -> Blog.Posts.get_post!(id: 1) end)
+      |> assign_new(:post, fn -> Blog.Posts.get_post!(id: post_id) end)
       |> assign_new(:state, fn -> :about end)
       |> assign_new(:uri, fn -> "" end)
 

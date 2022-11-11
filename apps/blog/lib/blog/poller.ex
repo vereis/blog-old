@@ -67,7 +67,8 @@ defmodule Blog.Poller do
 
         if posts == [] && !has_next_page?, do: {:halt, cursor}, else: {posts, cursor}
       end)
-      |> Enum.map(&Posts.create_post/1)
+      |> Stream.map(&build_attrs/1)
+      |> Stream.map(&Posts.create_post/1)
       |> Enum.split_with(&ok?/1)
 
     {:ok, insert_count: length(successes), errors: Enum.map(errors, &elem(&1, 1))}
@@ -89,4 +90,9 @@ defmodule Blog.Poller do
 
   defp owner, do: Config.repo!() |> String.split("/") |> List.first()
   defp repo, do: Config.repo!() |> String.split("/") |> List.last()
+
+  defp build_attrs(post) do
+    post
+    |> Map.update("content", "", &Regex.replace(~r/href="#/, &1, "href=\"/posts_by_id/"))
+  end
 end

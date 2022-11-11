@@ -57,28 +57,93 @@ defmodule BlogWeb.Components.Nav do
 
     ~H"""
     <div id="sidebar" class="
-      absolute transition transform-gpu ease-in-out duration-300 z-50 bg-white w-72
-      h-full drop-shadow-0 -translate-x-full
-      2xl:translate-x-0 2xl:relative 2xl:pt-0 2xl:border-r 2xl:transition-none 2xl:drop-shadow-none
+      -translate-x-full
+      2xl:border-r
+      2xl:drop-shadow-none
+      2xl:pt-0
+      2xl:relative
+      2xl:transition-none
+      2xl:translate-x-0
+      absolute
+      bg-white
+      drop-shadow-0
+      duration-300
+      ease-in-out
+      h-full
+      transform-gpu
+      transition
+      w-72
+      z-50
     ">
-      <nav class="w-full flex items-center p-4 space-x-4 font-semibold 2xl:justify-center 2xl:border-b">
-        <div class="2xl:hidden cursor-pointer select-none" phx-click={hide_sidebar()}>
+      <nav class="
+        w-full
+        flex
+        items-center
+        p-4
+        space-x-4
+        font-semibold
+        2xl:justify-center
+        2xl:border-b
+      ">
+        <div phx-click={hide_sidebar()} class="
+          2xl:hidden
+          cursor-pointer
+          select-none
+        ">
           <Heroicons.icon name="x" type="outline" class="h-4 w-4 shrink-0" />
         </div>
         <span class="2xl:hidden">Chris Bailey</span>
-        <span class="hidden py-2 2xl:block cursor-pointer select-none">
-          <%= Signature.svg("h-10 transform-gpu hover:scale-150 hover:text-rose-400 hover:-rotate-12 transition duration-200") %>
+        <span class="
+          hidden
+          py-2
+          2xl:block
+          cursor-pointer
+          select-none
+        ">
+          <%= Signature.svg("
+            h-10
+            transform-gpu
+            hover:scale-150
+            hover:text-rose-400
+            hover:-rotate-12
+            transition
+            duration-200
+          ") %>
         </span>
       </nav>
-      <div id="sidebar-links" class="flex flex-col px-4 space-y-0.5 mt-6">
+      <div id="sidebar-links" class="
+        flex
+        flex-col
+        px-4
+        space-y-0.5
+        mt-6
+      ">
         <%= for link <- local_links do %>
           <.sidebar_link state={@state} link={link} />
         <% end %>
-        <span class="px-2 pt-6 pb-1.5 text-sm font-semibold text-gray-500">External</span>
+        <span class="
+          px-2
+          pt-6
+          pb-1.5
+          text-sm
+          font-semibold
+          text-gray-500
+        ">
+          External
+        </span>
         <%= for link <- remote_links do %>
           <.sidebar_link state={@state} link={link} external={true} />
         <% end %>
-        <span class="px-2 pt-6 pb-1.5 text-sm font-semibold text-gray-500">Projects & Work</span>
+        <span class="
+          px-2
+          pt-6
+          pb-1.5
+          text-sm
+          font-semibold
+          text-gray-500
+        ">
+          Projects & Work
+        </span>
         <%= for link <- project_links do %>
           <.sidebar_link state={@state} link={link} external={true} />
         <% end %>
@@ -90,10 +155,22 @@ defmodule BlogWeb.Components.Nav do
   def sidebar_link(assigns) do
     ~H"""
     <a href={@link.href} phx-click={@link.action && JS.push(hide_sidebar(), @link.action, value: @link.args)} class={"
-      #{if @state in @link.states, do: "underline decoration-rose-400 hover:decoration-rose-400"}
-      flex items-center space bg-white px-2 py-2.5 rounded-md text-sm justify-between
-      hover:underline #{if @state not in @link.states, do: "hover:decoration-gray-400"}
-      decoration-wavy underline-offset-4 cursor-pointer select-none #{@link.styles}
+      #{@link.styles}
+      bg-white
+      cursor-pointer
+      flex
+      hover:decoration-blue-900
+      hover:text-blue-900
+      hover:underline
+      items-center
+      justify-between
+      px-2
+      py-2.5
+      rounded-md
+      select-none
+      space
+      text-sm
+      underline-offset-4
     "}>
       <span class="flex items-center space-x-2.5">
         <%= cond do %>
@@ -116,9 +193,23 @@ defmodule BlogWeb.Components.Nav do
   def bar(assigns) do
     ~H"""
     <nav phx-click={hide_sidebar()} class="
-      sticky top-0 w-full flex items-center justify-between p-4 bg-white z-40
-      transition transform-gpu ease-in-out duration-300
-      shadow-xl md:shadow-none md:border-b 2xl:hidden
+      2xl:hidden
+      bg-white
+      duration-300
+      ease-in-out
+      flex
+      items-center
+      justify-between
+      md:border-b
+      md:shadow-none
+      p-4
+      shadow-xl
+      sticky
+      top-0
+      transform-gpu
+      transition
+      w-full
+      z-40
     ">
       <.action_left state={@state} />
       <.title state={@state} title={@title} />
@@ -130,7 +221,14 @@ defmodule BlogWeb.Components.Nav do
   def main(assigns) do
     ~H"""
     <main phx-click={hide_sidebar()} class="
-      transition transform-gpu ease-in-out duration-300 grow overflow-hidden relative md:flex
+      transition
+      transform-gpu
+      ease-in-out
+      duration-300
+      grow
+      overflow-hidden
+      relative
+      md:flex
     ">
       <%= render_slot(@inner_block) %>
     </main>
@@ -148,20 +246,38 @@ defmodule BlogWeb.Components.Nav do
     """
   end
 
+  def action_left(assigns) when assigns.state == :post do
+    ~H"""
+    <div class={"
+      #{assigns[:class]}
+      cursor-pointer
+      select-none
+    "} phx-click="select-index">
+      <Heroicons.icon name="arrow-narrow-left" type="outline" class="h-4 w-4 shrink-0" />
+    </div>
+    """
+  end
+
   def action_left(assigns) do
     ~H"""
-    <div class={"cursor-pointer select-none #{@state in [:index, :about] && "xs:block sm:block" || "hidden"} md:block"} phx-click={show_sidebar()}>
+    <div class={"
+      #{assigns[:class]}
+      cursor-pointer
+      select-none
+    "} phx-click={show_sidebar()}>
       <Heroicons.icon name="menu" type="outline" class="h-4 w-4" />
-    </div>
-    <div class={"cursor-pointer select-none #{@state == :post && "block" || "hidden"} md:hidden"} phx-click="select-index">
-      <Heroicons.icon name="arrow-narrow-left" type="outline" class="h-4 w-4 shrink-0" />
     </div>
     """
   end
 
   def action_right(assigns) do
     ~H"""
-    <Heroicons.icon name="sun" type="outline" class="h-4 w-4 shrink-0 invisible" />
+    <Heroicons.icon name="sun" type="outline" class={"
+      h-4
+      w-4
+      shrink-0
+      #{assigns[:class]}
+    "}/>
     """
   end
 end

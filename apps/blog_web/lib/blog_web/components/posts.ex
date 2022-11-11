@@ -3,7 +3,7 @@ defmodule BlogWeb.Components.Posts do
 
   use Phoenix.Component
 
-  alias Heroicons.LiveView, as: Heroicons
+  alias BlogWeb.Components.Nav
   alias Phoenix.LiveView.JS
 
   def select_post(js \\ %JS{}) do
@@ -16,11 +16,33 @@ defmodule BlogWeb.Components.Posts do
     ~H"""
     <main id="posts-index" class={"
       #{if @state in [:about, :post], do: "brightness-50"}
-      transition transform-gpu ease-in-out duration-300 h-full
-      absolute pt-10 bg-white w-full max-h-full overflow-y-scroll
-      md:relative md:w-128 md:brightness-100 md:pt-0 md:border-r md:transition-none
+      absolute
+      bg-white
+      duration-300
+      ease-in-out
+      h-full
+      max-h-full
+      md:border-r
+      md:brightness-100
+      md:relative
+      md:transition-none
+      md:w-128
+      overflow-y-scroll
+      transform-gpu
+      transition
+      w-full
     "}>
-      <div class="max-w-prose mx-auto">
+      <.title>
+        <Nav.action_left state={:posts} class="2xl:invisible"/>
+        <p class="font-bold md:font-normal">All Posts</p>
+        <Nav.action_right state={@state} class="invisible"/>
+      </.title>
+      <div class="
+        sm:w-128
+        md:w-auto
+        w-full
+        mx-auto
+      ">
         <%= for post <- @posts, not post.is_draft do %>
           <.post post={post} uri={@uri} state={@state} />
         <% end %>
@@ -29,21 +51,84 @@ defmodule BlogWeb.Components.Posts do
     """
   end
 
+  def title(assigns) do
+    ~H"""
+    <nav class={"
+      #{assigns[:class]}
+      bg-white/80
+      duration-300
+      ease-in-out
+      border-b
+      p-4
+      sticky
+      top-0
+      backdrop-blur-md
+      transform-gpu
+      transition
+      w-full
+      z-40
+      flex
+    "}>
+      <div class="
+        2xl:h-10
+        flex
+        flex-grow
+        items-center
+        justify-between
+        my-1
+        space-x-4
+      ">
+        <%= render_slot(@inner_block) %>
+      </div>
+    </nav>
+    """
+  end
+
   def post(assigns) do
     ~H"""
     <div phx-click={select_post()} phx-value-post-slug={@post.slug} class={"
-      cursor-pointer select-none
-      block py-6 px-10 md:py-5 md:px-5 md:border-b hover:bg-gray-100/50
+      block
+      cursor-pointer
+      hover:bg-gray-300/20
+      md:border-b
+      md:px-5
+      md:py-5
+      px-4
+      py-4
+      select-none
     "}>
-      <a href="#" class="font-semibold">
-        <%= @post.title %>
-      </a>
-      <div class="flex space-x-2 mt-2">
-        <.metadata icon="book-open" value={Calendar.strftime(@post.created_at, "%b %d, %Y")}/>
-        <.metadata icon="clock" value={Enum.join([@post.reading_time_minutes, "min. read"], " ")}/>
-      </div>
-      <div class="flex flex-wrap mt-2.5 gap-x-2 gap-y-1">
-        <%= for tag <- @post.tags do %> <.tag tag={tag} /> <% end %>
+      <div class="
+        flex
+        flex-col
+        space-y-1
+      ">
+        <a href="#" class="
+          text-blue-900
+          underline
+          underline-offset-4
+          text-sm
+          mb-1.5
+        ">
+          <%= @post.title %>
+        </a>
+        <div class="
+          flex
+          space-x-2
+          text-xs
+          oblique
+        ">
+          <.metadata icon="book-open" value={Calendar.strftime(@post.created_at, "%b %d, %Y")}/>
+          <.metadata icon="clock" value={Enum.join([@post.reading_time_minutes, "min. read"], " ")}/>
+        </div>
+        <div class="
+          flex
+          flex-wrap
+          gap-x-2
+          gap-y-1
+          text-xs
+        ">
+          <%= for tag <- @post.tags do %> <.tag tag={tag} /> <% end %>
+        </div>
       </div>
     </div>
     """
@@ -51,8 +136,11 @@ defmodule BlogWeb.Components.Posts do
 
   def metadata(assigns) do
     ~H"""
-    <div class="flex items-center space-x-1 text-sm">
-      <Heroicons.icon name={@icon} type="outline" class="h-4 w-4" />
+    <div class="
+      flex
+      items-center
+      space-x-1
+    ">
       <span><%= @value %></span>
     </div>
     """
@@ -60,7 +148,14 @@ defmodule BlogWeb.Components.Posts do
 
   def tag(assigns) do
     ~H"""
-    <div class="whitespace-nowrap lowercase font-mono before:content-['#'] before:-mr-1.5 text-xs">
+    <div class="
+      before:-mr-1
+      before:content-['#']
+      lowercase
+      whitespace-nowrap
+      text-gray-600
+      text-xs
+    ">
       <%= @tag %>
     </div>
     """
@@ -70,32 +165,70 @@ defmodule BlogWeb.Components.Posts do
     ~H"""
       <article id="content" class={"
         #{if @state not in [:about, :post], do: "translate-x-full"}
-        absolute transform-gpu transition-transform ease-in-out duration-300
-        h-full max-h-full bg-white w-full max-w-none overflow-y-scroll
-        md:relative md:translate-x-0 md:transition-none
+        absolute
+        bg-white
+        duration-300
+        ease-in-out
+        h-full
+        max-h-full
+        max-w-none
+        md:relative
+        md:transition-none
+        md:translate-x-0
+        overflow-y-scroll
+        transform-gpu
+        transition-transform
+        w-full
       "}>
+      <.title class="2xl:hidden justify-between">
+        <Nav.action_left state={:post} class="md:invisible"/>
+        <p class="font-bold line-clamp-1"><%= @post.title %></p>
+        <Nav.action_right state={@state} class="invisible"/>
+      </.title>
       <div class="
+        2xl:pb-36
+        2xl:prose-h1:text-4xl
+        2xl:prose-h2:text-3xl
+        2xl:prose-h3:text-2xl
+        2xl:prose-h4:text-xl
+        2xl:pt-36
+        hover:prose-a:text-rose-400
+        leading-loose
+        lg:py-16
+        md:pb-5
+        md:pt-5
         mx-auto
-        pt-12 pb-12 px-5 prose prose-neutral text-lg leading-loose
-        prose-h1:text-3xl prose-h1:font-bold
-        prose-h2:text-2xl prose-h2:font-bold
-        prose-h3:text-xl prose-h3:font-bold
-        prose-h1:font-serif
-        prose-h2:font-serif
-        prose-h3:font-serif
-        prose-h4:font-serif
-        prose-h1:mb-12
-        prose-h2:mb-6
-        prose-h3:mb-6
-        prose-h4:mb-6
+        pt-4
+        pb-12
+        prose
+        prose-sm
+        prose-a:text-blue-900
+        prose-a:underline
+        prose-a:underline-offset-4
+        prose-a:font-normal
+        prose-code:after:content-none
+        prose-code:before:content-none
+        prose-h1:font-bold
+        prose-h1:mb-8
+        prose-h1:text-2xl
+        prose-h2:font-bold
+        prose-h2:mb-4
+        prose-h2:text-xl
+        prose-h3:font-bold
+        prose-h3:mb-4
+        prose-h3:text-lg
+        prose-h4:mb-4
+        prose-neutral
         prose-pre:overflow-x-auto
-        prose-code:before:content-none prose-code:after:content-none prose-code:text-lg
-        hover:prose-a:text-rose-400 prose-a:font-semibold prose-a:underline prose-a:underline-offset-4 prose-a:underline-thickness-2
-        md:pt-18 md:pb-18 lg:pt-28 lg:pb-28 2xl:pt-36 2xl:pb-36
-        2xl:max-w-3xl
-        2xl:prose-h1:text-4xl prose-h1:font-bold
-        2xl:prose-h2:text-3xl prose-h2:font-bold
-        2xl:prose-h3:text-2xl prose-h3:font-bold
+        prose-pre:bg-black/90
+        sm:py-12
+        pb-4
+        px-4
+        lg:prose-h1:text-3xl
+        lg:prose-h1:mb-4
+        lg:prose-h2:text-2xl
+        lg:prose-h3:text-xl
+        lg:prose-base
       ">
         <%= {:safe, @post.content } %>
       </div>

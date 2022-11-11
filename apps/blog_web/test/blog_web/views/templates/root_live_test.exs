@@ -114,20 +114,6 @@ defmodule BlogWeb.Layouts.RootLiveTest do
     end
 
     @tag fixture: [%{content: "About Me", title: "post title", tags: ["uno", "dos", "tres"]}]
-    test "patches LV to the about page when the logo is clicked", ctx do
-      assert view =
-               ctx.conn
-               |> live("/")
-               |> then(fn {:ok, view, _html} -> view end)
-
-      assert view
-             |> element("div[phx-click=\"select-about\"]")
-             |> render_click()
-
-      assert_patched(view, "/")
-    end
-
-    @tag fixture: [%{content: "About Me", title: "post title", tags: ["uno", "dos", "tres"]}]
     test "patches LV to the index page when the index button is clicked", ctx do
       assert view =
                ctx.conn
